@@ -26,7 +26,7 @@ namespace pjviz
                 i++;
                 if (i >= args.Length)
                 {
-                    Console.WriteLine($"Error: Missing value for arg `{args[i]}`");
+                    Console.WriteLine($"Error: Missing value for arg `{name}`");
                     return null;
                 }
 
@@ -140,7 +140,6 @@ namespace pjviz
                             string[] nuPkgNameParts = nugetPackageNameAndVersion.Split(new char[] { '/' });
                             if (nuPkgNameParts.Length != 2)
                             {
-                                Console.WriteLine($"Warning: Improper package name format: {nugetPackageNameAndVersion}");
                                 continue;
                             }
 
