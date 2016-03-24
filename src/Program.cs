@@ -174,7 +174,8 @@ namespace pjviz
             }
         }
 
-        public static void PrintVisitPJ(ProjectLockJson pj)
+        // currently unused
+        public static void PrintPJ(ProjectLockJson pj)
         {
             foreach (var targetPair in pj.targets)
             {
