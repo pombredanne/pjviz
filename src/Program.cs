@@ -11,14 +11,9 @@ namespace pjviz
 {
     class Program
     {
-        static void ProcessRef(ReferenceDescription refDescription)
-        {
-            
-        }
-
         static void Main(string[] args)
         {
-            if (args.Length != 5)
+            if (args.Length != 4)
             {
                 Console.WriteLine("Usage: TODO");
                 return;
@@ -26,9 +21,8 @@ namespace pjviz
 
             string lockJsonFile = args[0];
             string pkgName = args[1]; // System.Runtime
-            string assemblyType = args[2]; // runtime | compile
-            string tfm = args[3];
-            string dgmlPath = args[4];
+            string tfm = args[2];
+            string dgmlPath = args[3];
 
             ProjectLockJson pj = JsonConvert.DeserializeObject<ProjectLockJson>(File.ReadAllText(lockJsonFile));
 
@@ -137,7 +131,6 @@ namespace pjviz
                     xml.WriteEndElement();
                 }
             }
-
         }
 
         public static void PrintVisitPJ(ProjectLockJson pj)
