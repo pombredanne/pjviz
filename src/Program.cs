@@ -11,18 +11,59 @@ namespace pjviz
 {
     class Program
     {
+        static Dictionary<string, string> ParseCommandLineArgs(string[] args)
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (!args[i].StartsWith("--"))
+                {
+                    Console.WriteLine($"Error: Invalid arg `{args[i]}`");
+                    return null;
+                }
+
+                string name = args[i].Substring(2);
+                i++;
+                if (i >= args.Length)
+                {
+                    Console.WriteLine($"Error: Missing value for arg `{args[i]}`");
+                    return null;
+                }
+
+                ret.Add(name, args[i]);
+            }
+
+            return ret;
+        }
+
+        public static bool EnsureDictionaryHasKeys(Dictionary<string, string> dict, string[] values)
+        {
+            foreach (var value in values)
+            {
+                if (!dict.ContainsKey(value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         static void Main(string[] args)
         {
-            if (args.Length != 4)
+            Dictionary<string, string> parsedArgs = ParseCommandLineArgs(args);
+
+            if (parsedArgs == null || !EnsureDictionaryHasKeys(parsedArgs, new string[] { "pj", "nupkg", "tfm", "out" }))
             {
-                Console.WriteLine("Usage: TODO");
+                Console.WriteLine("Usage: pjviz.exe --pj <path/to/project.lock.json> --nupkg <NuGet package name> --tfm <TFM> --out <path/to/out.dgml>");
+                Console.WriteLine("Example: pjviz.exe --pj project.lock.json --nupkg System.Runtime --tfm .NETStandardApp,Version=v1.5/win7-x64 --out test.dgml");
                 return;
             }
 
-            string lockJsonFile = args[0];
-            string pkgName = args[1]; // System.Runtime
-            string tfm = args[2];
-            string dgmlPath = args[3];
+            string lockJsonFile = parsedArgs["pj"];
+            string pkgName = parsedArgs["nupkg"];
+            string tfm = parsedArgs["tfm"];
+            string dgmlPath = parsedArgs["out"];
 
             ProjectLockJson pj = JsonConvert.DeserializeObject<ProjectLockJson>(File.ReadAllText(lockJsonFile));
 
