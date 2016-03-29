@@ -156,7 +156,7 @@ namespace pjviz
                                     if (!nuPkgNames.Contains(dependencyName))
                                     {
                                         Console.WriteLine($"Warning: {nuPkgName} ({nuPkgVersion}) -> [MISSING] {dependencyName} (dependencyVersion)");
-                                        return;
+                                        continue;
                                     }
 
                                     xml.WriteStartElement("Link");
